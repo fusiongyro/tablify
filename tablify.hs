@@ -92,7 +92,7 @@ processFile opts file = do
 	putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
-showInfo Options { optVersion = True } = putStrLn "tablify version 0.5"
+showInfo Options { optVersion = True } = putStrLn "tablify version 0.6"
 showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 
 main = do

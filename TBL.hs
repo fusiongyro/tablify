@@ -12,6 +12,6 @@ tblify table = tblstart ++ "\n" ++ header ++ "\n" ++ body ++ "\n" ++ tblend
 		tblstart = ".TS"
 		tblend = ".TE"
 		header = intercalate " " (genericReplicate (columns+1) "c") ++ "\n" ++ intercalate " " (genericReplicate (columns+1) "l") ++ "."
-		body = intercalate "\n" $ [ formatRow n | n <- [1..rows]]
+		body = intercalate "\n" $ [ formatRow n | n <- [0..rows]]
 		formatRow n = intercalate "\t" $ rowValues n
 		rowValues r        = [ x | x <- map (table!) $ range ((r,0), (r,columns)) ]		
