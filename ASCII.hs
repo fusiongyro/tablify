@@ -1,4 +1,4 @@
-module Unicode where
+module ASCII where
 import Data.Array
 import Data.List hiding (length)
 import Prelude hiding (length)
@@ -12,5 +12,5 @@ import FixedWidth
 -- prefixing and suffixing padded strings in the tabular format.
 -- we take the first row to be the header. empty cells are permitted.
 
-unicate :: Table -> String
-unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") "─" "│"
+asciify :: Table -> String
+asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") "-" "|"

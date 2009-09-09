@@ -1,10 +1,6 @@
--- a simple program to take a file with this syntax:
+-- Generates tables from CSV files.
 --
---  foo | bar | baz
---  boo | baa | bee
---  haa | hee | hoo
---
--- and generate a nice-looking Unicode table like this:
+-- I wrote it specifically to make pretty Unicode tables like this:
 -- 
 -- ┌─────┬─────┬─────┐
 -- │ foo │ bar │ baz │
@@ -13,11 +9,7 @@
 -- │ haa │ hee │ hoo │
 -- └─────┴─────┴─────┘
 --
--- our basic agenda here is to convert the input into an array then we're
--- going to process the array to discover the maximum widths for each column.
--- once we have these maximums, we'll begin constructing the output by
--- prefixing and suffixing padded strings in the tabular format.
--- we take the first row to be the header. empty cells are permitted.
+-- It always treats the first record as the column headers.
 
 module Main where
 
@@ -32,9 +24,10 @@ import Utilities
 import Unicode
 import HTML
 import TBL
+import ASCII
 import CSV
 
-data Mode = HTML | UTF8 | TBL deriving Show
+data Mode = HTML | UTF8 | TBL | ASCII deriving Show
 data Options = Options 
 	{ optHelp         :: Bool
 	, optVersion  :: Bool
@@ -44,7 +37,7 @@ data Options = Options
 defaultOptions = Options
 	{ optHelp = False
 	, optVersion = False
-	, optMode = UTF8
+	, optMode = HTML
 	}
 
 usage :: String
@@ -67,6 +60,9 @@ options =
 	, Option ['T']  ["tbl"]
 		(NoArg (\o -> o { optMode = TBL }))
 		"output TBL table"
+	, Option ['A']  ["ascii"]
+		(NoArg (\o -> o { optMode = ASCII }))
+		"output ASCII table"
 	]
 
 getOptions :: [String] -> IO (Options, [String])
@@ -79,9 +75,10 @@ getOptions argv =
 processOpts :: Table -> Options -> String
 processOpts table opts = 
 	case optMode opts of
-		UTF8 -> unicate table
-		HTML -> htmlify table	
-		TBL  -> tblify  table	
+		UTF8  -> unicate table
+		HTML  -> htmlify table	
+		TBL   -> tblify  table
+		ASCII -> asciify table
 		
 parseData :: String -> IO Table
 parseData dat = case parseCSV dat of 
@@ -95,7 +92,7 @@ processFile opts file = do
 	putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
-showInfo Options { optVersion = True } = putStrLn "tablify version 0.3"
+showInfo Options { optVersion = True } = putStrLn "tablify version 0.5"
 showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 
 main = do
