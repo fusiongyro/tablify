@@ -35,11 +35,11 @@ import Text.ParserCombinators.Parsec
 type Table = Array (Integer, Integer) String
 
 columnWidths :: Table -> [Integer]
-columnWidths table = elems $ foldr combine initial $ assocs table
+columnWidths table = elems $ foldl' combine initial $ assocs table
 	where
 		((_,_), (rows, columns)) = bounds table
 		initial = array (0,columns) [ (i, 0) | i <- [0..columns] ]
-		combine ((_,y), val) tab = if genericLength val > tab!y then tab//[(y, genericLength val)] else tab
+		combine tab ((_,y), val) = if genericLength val > tab!y then tab//[(y, genericLength val)] else tab
 
 repeats :: [a] -> Integer -> [a]
 repeats s c = concat $ genericTake c $ repeat s
