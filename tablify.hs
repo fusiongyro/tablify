@@ -37,23 +37,23 @@ import CSV
 data Mode = HTML | UTF8 | TBL deriving Show
 data Options = Options 
 	{ optHelp         :: Bool
-	, optShowVersion  :: Bool
+	, optVersion  :: Bool
 	, optMode         :: Mode 
 	} deriving Show
 
 defaultOptions = Options
 	{ optHelp = False
-	, optShowVersion = False
+	, optVersion = False
 	, optMode = UTF8
 	}
 
-usageHeader :: String
-usageHeader = "Usage: tablify [OPTION...] file"
+usage :: String
+usage = "Usage: tablify [OPTION...] file"
 
 options :: [OptDescr (Options -> Options)]
 options = 
 	[ Option ['v']  ["version"] 
-		(NoArg (\o -> o { optShowVersion = True }))
+		(NoArg (\o -> o { optVersion = True }))
 		"show version"
 	, Option ['h']  ["help"] 
 		(NoArg (\o -> o { optHelp = True }))
@@ -73,7 +73,8 @@ getOptions :: [String] -> IO (Options, [String])
 getOptions argv =
 	case getOpt Permute options argv of
 		(o, n, []) -> return (foldl (flip id) defaultOptions o, n)
-		(_, _, errors) -> ioError (userError (concat errors ++ usageInfo usageHeader options))
+		(_, _, errors) -> ioError (userError 
+							(concat errors ++ usageInfo usage options))
 
 processOpts :: Table -> Options -> String
 processOpts table opts = 
@@ -94,12 +95,12 @@ processFile opts file = do
 	putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
-showInfo Options { optShowVersion = True } = putStrLn "tablify version 0.3"
-showInfo Options { optHelp = True }        = putStr $ usageInfo usageHeader options
+showInfo Options { optVersion = True } = putStrLn "tablify version 0.3"
+showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 
 main = do
 	args <- getArgs
 	(opts, arguments) <- getOptions args
-	if optHelp opts || optShowVersion opts 
+	if optHelp opts || optVersion opts 
 		then showInfo opts
 		else mapM_ (processFile opts) arguments

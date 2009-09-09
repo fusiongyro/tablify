@@ -1,4 +1,6 @@
-all:
+all: tablify
+
+tablify: CSV.hs HTML.hs TBL.hs Tablify.hs Unicode.hs Utilities.hs
 	ghc --make tablify
 
 clean:

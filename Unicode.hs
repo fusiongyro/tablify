@@ -1,38 +1,50 @@
 module Unicode where
 import Data.Array
-import Data.List
+import Data.List hiding (length)
+import Prelude hiding (length)
 
 import Utilities
+
+-- let's simplify the reading of the code
+length = genericLength
 
 columnWidths :: Table -> [Integer]
 columnWidths table = elems $ foldl' combine initial $ assocs table
 	where
 		((_,_), (rows, columns)) = bounds table
-		initial = array (0,columns) [ (i, 0) | i <- [0..columns] ]
-		combine tab ((_,y), val) = if genericLength val > tab!y then tab//[(y, genericLength val)] else tab
+		initial = array (0, columns) [ (i, 0) | i <- [0..columns] ]
+		combine tab ((_,y), val) = 
+			if length val > tab!y 
+				then tab // [(y, length val)] 
+				else tab
 
 -- We used to call this ASCII art, but these days it's Unicode.
 unicate :: Table -> String
-unicate table = boxtop ++ "\n" ++ heading ++ "\n" ++ boxmiddle ++ "\n" ++ body ++ "\n" ++ boxbottom
+unicate table = concat $ intersperse "\n" [btop, bhead, bmid, body, bbot]
 	where
+		-- I'm pattern matching the (0,0) as a way of 
+		-- checking that the table is valid
 		((0,0), (rows, columns)) = bounds table
 		widths = columnWidths table
 		
 		boxpart :: String -> String -> String -> String -> String
-		boxpart space ljoint midjoint rjoint = 
-			ljoint ++ (intercalate midjoint $ map (\x -> repeats space (x+2)) widths) ++ rjoint
+		boxpart sp left mid right = 
+			   left 
+			++ (intercalate mid $ map (\x -> repeats sp (x+2)) widths) 
+			++ right
 		
-		boxtop    = boxpart "─" "┌" "┬" "┐"
-		boxmiddle = boxpart "─" "├" "┼" "┤"
-		boxbottom = boxpart "─" "└" "┴" "┘"
+		btop = boxpart "─" "┌" "┬" "┐"
+		bmid = boxpart "─" "├" "┼" "┤"
+		bbot = boxpart "─" "└" "┴" "┘"
 		
 		pad :: Integer -> String -> String
-		pad n str = str ++ repeats " " (n - genericLength str)
+		pad n str = str ++ repeats " " (n - length str)
 		
-		heading, body :: String
-		heading            = formatRow 0
-		body               = intercalate "\n" $ [ formatRow n | n <- [1..rows]]
+		bhead, body :: String
+		bhead = formatRow 0
+		body  = intercalate "\n" $ 
+				  [ formatRow n | n <- [1..rows]]
 
-		formatRow n        = "│" ++ (intercalate "│" $ zipWith formatCell (rowValues n) widths) ++ "│"
-		formatCell v width = " " ++ v ++ repeats " " (width - genericLength v + 1)
-		rowValues r        = [ x | x <- map (table!) $ range ((r,0), (r,columns)) ]		
+		formatRow n = "│" ++ (intercalate "│" $ 
+						zipWith formatCell (row table n) widths) ++ "│"
+		formatCell v width = " " ++ v ++ repeats " " (width - length v + 1)
