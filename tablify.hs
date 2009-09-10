@@ -20,6 +20,7 @@ import System
 import System.IO.UTF8
 import System.Console.GetOpt
 
+import Converter
 import Utilities
 import Unicode
 import HTML
@@ -27,18 +28,23 @@ import TBL
 import ASCII
 import CSV
 
-data Mode = HTML | UTF8 | TBL | ASCII deriving Show
 data Options = Options 
-	{ optHelp         :: Bool
-	, optVersion  :: Bool
-	, optMode         :: Mode 
-	} deriving Show
+	{ optHelp        :: Bool
+	, optVersion     :: Bool
+	, optConverter   :: Converter
+	}
 
 defaultOptions = Options
-	{ optHelp = False
-	, optVersion = False
-	, optMode = HTML
+	{ optHelp      = False
+	, optVersion   = False
+	, optConverter = HTML.converter
 	}
+
+converters = 
+	[ ASCII.converter
+	, HTML.converter
+	, TBL.converter
+	, Unicode.converter]
 
 usage :: String
 usage = "Usage: tablify [OPTION...] file"
@@ -50,20 +56,13 @@ options =
 		"show version"
 	, Option ['h']  ["help"] 
 		(NoArg (\o -> o { optHelp = True }))
-		"show this help"
-	, Option ['H']  ["html"]
-		(NoArg (\o -> o { optMode = HTML }))
-		"output HTML table"
-	, Option ['U']  ["utf8"]
-		(NoArg (\o -> o { optMode = UTF8 }))
-		"output UTF8 table"
-	, Option ['T']  ["tbl"]
-		(NoArg (\o -> o { optMode = TBL }))
-		"output TBL table"
-	, Option ['A']  ["ascii"]
-		(NoArg (\o -> o { optMode = ASCII }))
-		"output ASCII table"
-	]
+		"show this help" ] ++ moreOptions
+	where
+		moreOptions = map converterToOption converters
+		converterToOption c@(Converter name conv short long) = 
+			Option short [long] 
+				(NoArg (\o -> o {optConverter = c}))
+				("output " ++ name ++ " table")
 
 getOptions :: [String] -> IO (Options, [String])
 getOptions argv =
@@ -73,12 +72,8 @@ getOptions argv =
 							(concat errors ++ usageInfo usage options))
 
 processOpts :: Table -> Options -> String
-processOpts table opts = 
-	case optMode opts of
-		UTF8  -> unicate table
-		HTML  -> htmlify table	
-		TBL   -> tblify  table
-		ASCII -> asciify table
+processOpts table (Options { optConverter = (Converter { cConvert = f })}) = 
+	f table
 		
 parseData :: String -> IO Table
 parseData dat = case parseCSV dat of 

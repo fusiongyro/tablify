@@ -4,6 +4,7 @@ import Data.Array
 import Data.List
 import Text.Regex
 import Utilities
+import Converter
 
 data Tag = Tag { tagName :: String, tagBody :: Tag } 
 		 | TList [Tag]
@@ -59,3 +60,5 @@ htmlify table = render tableToTags
 		cellToTag cellT cell = Tag cellT (Body cell)
 		
 		((0,0), (rows,columns)) = bounds table
+
+converter = Converter "HTML" htmlify "H" "html"

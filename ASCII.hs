@@ -4,6 +4,7 @@ import Data.List hiding (length)
 import Prelude hiding (length)
 
 import Utilities
+import Converter
 import FixedWidth
 
 -- our basic agenda here is to convert the input into an array then we're
@@ -14,3 +15,10 @@ import FixedWidth
 
 asciify :: Table -> String
 asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") "-" "|"
+
+converter = Converter
+	{ cName        = "ASCII"
+	, cConvert     = asciify
+	, cShortOpt    = "A"
+	, cLongOpt     = "ascii"
+	}

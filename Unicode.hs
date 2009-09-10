@@ -4,6 +4,7 @@ import Data.List hiding (length)
 import Prelude hiding (length)
 
 import Utilities
+import Converter
 import FixedWidth
 
 -- our basic agenda here is to convert the input into an array then we're
@@ -14,3 +15,5 @@ import FixedWidth
 
 unicate :: Table -> String
 unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") "─" "│"
+
+converter = Converter "Unicode" unicate "U" "unicode"

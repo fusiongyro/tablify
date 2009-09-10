@@ -3,6 +3,7 @@ import Data.Array
 import Data.List
 
 import Utilities
+import Converter
 
 -- TBL... yeah...
 tblify :: Table -> String
@@ -15,3 +16,5 @@ tblify table = tblstart ++ "\n" ++ header ++ "\n" ++ body ++ "\n" ++ tblend
 		body = intercalate "\n" $ [ formatRow n | n <- [0..rows]]
 		formatRow n = intercalate "\t" $ rowValues n
 		rowValues r        = [ x | x <- map (table!) $ range ((r,0), (r,columns)) ]		
+
+converter = Converter "TBL" tblify "T" "tbl"
