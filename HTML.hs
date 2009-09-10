@@ -1,4 +1,4 @@
-module HTML where
+module HTML (converter) where
 
 import Data.Array
 import Data.List

@@ -1,4 +1,4 @@
-module Unicode where
+module Unicode (converter) where
 import Data.Array
 import Data.List hiding (length)
 import Prelude hiding (length)

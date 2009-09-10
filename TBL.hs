@@ -1,4 +1,4 @@
-module TBL where
+module TBL (converter) where
 import Data.Array
 import Data.List
 

@@ -1,0 +1,18 @@
+Cabal-Version:       >= 1.2
+Name:                Tablify
+Version:             0.6
+License:             BSD3
+License-File:        LICENSE.txt
+Author:              Daniel Lyons
+Homepage:            http://www.storytotell.org/code/tablify
+Category:            Text
+Stability:           provisional
+Copyright:           © 2009 Daniel Lyons
+Synopsis:            Tool to render CSV into tables of various formats
+Build-Type:          Simple
+Maintainer:          Daniel Lyons <fusion@storytotell.org>
+Description:         Tool to render CSV into tables of various formats, including HTML, tbl, and character art (both ASCII and Unicode)
+
+Executable tablify   
+  Main-Is:           Tablify.hs
+  Build-Depends:     base, utf8-string, parsec, array, regex-compat, haskell98
