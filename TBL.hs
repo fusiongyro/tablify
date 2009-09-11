@@ -11,7 +11,7 @@ tblify table = intercalate "\n" [tblstart, header, body, tblend]
 		columns = length $ head table
 		tblstart = ".TS"
 		tblend = ".TE"
-		header = heading 'c' ++ "\n" ++ heading 'l'
+		header = heading 'c' ++ "\n" ++ heading 'l' ++ "."
 		heading c = intersperse ' ' $ replicate (columns+1) c
 		body = intercalate "\n" $ map (intercalate "\t") table
 

@@ -1,5 +1,5 @@
 tablify - a simple utility for formatting CSV files.
- by Daniel Lyons <fusion@storytotell.org>
+by Daniel Lyons <fusion@storytotell.org>
 
 What it does:
 
@@ -61,17 +61,26 @@ Dependencies:
 
  • GHC (Glasgow Haskell Compiler) — http://www.haskell.org/ghc/
  • utf8-string library — http://hackage.haskell.org/package/utf8-string
- • bytestring http://hackage.haskell.org/package/bytestring
+
+These are generally included with GHC:
+
+ • parsec
+ • regex-compat
+ • haskell98
 
 Building:
 
- Type `make' at the command line. If everything goes according to plan, 
- you should have a `tablify' binary now.
+ Run these three commands ($ represents your shell's prompt):
 
-Installing:
+ $ runhaskell Setup.hs configure
+ $ runhaskell Setup.hs build
+ $ sudo runhaskell Setup.hs install
 
- Move `tablify' to somewhere you can run it from, or add this directory to
- your path.
+ Alternatively, if you have the cabal utility installed, you can run:
+
+ $ cabal configure
+ $ cabal build
+ $ cabal install
 
 Contacting me:
 
