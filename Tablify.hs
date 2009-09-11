@@ -28,6 +28,8 @@ import TBL
 import ASCII
 import CSV
 
+version = 0.7
+
 data Options = Options 
 	{ optHelp        :: Bool
 	, optVersion     :: Bool
@@ -72,13 +74,12 @@ getOptions argv =
 							(concat errors ++ usageInfo usage options))
 
 processOpts :: Table -> Options -> String
-processOpts table (Options { optConverter = (Converter { cConvert = f })}) = 
-	f table
+processOpts table (Options _ _ (Converter { cConvert = f })) = f table
 		
 parseData :: String -> IO Table
 parseData dat = case parseCSV dat of 
 	Left _ -> ioError $ userError "unable to parse file"
-	Right result -> return $ stringsToTable result
+	Right result -> return result
 
 processFile :: Options -> String -> IO ()
 processFile opts file = do
@@ -87,7 +88,7 @@ processFile opts file = do
 	putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
-showInfo Options { optVersion = True } = putStrLn "tablify version 0.6"
+showInfo Options { optVersion = True } = putStrLn $ "tablify version " ++ show version
 showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 
 main = do

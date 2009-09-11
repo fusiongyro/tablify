@@ -1,7 +1,5 @@
 module HTML (converter) where
 
-import Data.Array
-import Data.List
 import Text.Regex
 import Utilities
 import Converter
@@ -49,16 +47,14 @@ htmlify table = render tableToTags
 		tableToTags = Tag "table" (TList [header, body])
 				
 		header, body :: Tag
-		header = Tag "thead" $ rowToTags "th" (row table 0)
+		header = Tag "thead" $ rowToTags "th" (head table)
 		body   = Tag "tbody" $ TList $ 
-					map (rowToTags "td") [ row table n | n <- [1..rows]]
+					map (rowToTags "td") (tail table)
 		
 		rowToTags :: String -> [String] -> Tag
 		rowToTags cellT row = Tag "tr" (TList $ map (cellToTag cellT) row)
 		
 		cellToTag :: String -> String -> Tag
 		cellToTag cellT cell = Tag cellT (Body cell)
-		
-		((0,0), (rows,columns)) = bounds table
 
 converter = Converter "HTML" htmlify "H" "html"

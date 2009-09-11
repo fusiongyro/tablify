@@ -1,6 +1,4 @@
 module ASCII (converter) where
-import Data.Array
-import Data.List hiding (length)
 import Prelude hiding (length)
 
 import Utilities

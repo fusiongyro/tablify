@@ -1,6 +1,6 @@
 Cabal-Version:       >= 1.2
 Name:                Tablify
-Version:             0.6
+Version:             0.7
 License:             BSD3
 License-File:        LICENSE.txt
 Author:              Daniel Lyons
@@ -15,4 +15,4 @@ Description:         Tool to render CSV into tables of various formats, includin
 
 Executable tablify   
   Main-Is:           Tablify.hs
-  Build-Depends:     base, utf8-string, parsec, array, regex-compat, haskell98
+  Build-Depends:     base, utf8-string, parsec, regex-compat, haskell98

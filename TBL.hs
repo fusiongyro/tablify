@@ -1,7 +1,6 @@
 module TBL (converter) where
-import Data.Array
-import Data.List
 
+import Prelude hiding (length, replicate)
 import Utilities
 import Converter
 
@@ -9,12 +8,11 @@ import Converter
 tblify :: Table -> String
 tblify table = tblstart ++ "\n" ++ header ++ "\n" ++ body ++ "\n" ++ tblend
 	where
-		((0,0), (rows, columns)) = bounds table
+		columns = length $ head table
 		tblstart = ".TS"
 		tblend = ".TE"
-		header = intercalate " " (genericReplicate (columns+1) "c") ++ "\n" ++ intercalate " " (genericReplicate (columns+1) "l") ++ "."
-		body = intercalate "\n" $ [ formatRow n | n <- [0..rows]]
-		formatRow n = intercalate "\t" $ rowValues n
-		rowValues r        = [ x | x <- map (table!) $ range ((r,0), (r,columns)) ]		
+		header = heading 'c' ++ "\n" ++ heading 'l'
+		heading c = intersperse ' ' $ replicate (columns+1) c
+		body = intercalate "\n" $ map (intercalate "\t") table
 
 converter = Converter "TBL" tblify "T" "tbl"
