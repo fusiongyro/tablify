@@ -18,6 +18,7 @@ start s = "<" ++ s ++ ">"
 end :: String -> String
 end s = "</" ++ s ++ ">"
 
+-- escapes the bare minimum of characters for safe embedding in HTML
 htmlEscape :: String -> String
 htmlEscape html = foldl' process html mappings
 	where

@@ -9,6 +9,7 @@ import Utilities
 pad :: Integer -> String -> String
 pad n str = str ++ replicate (n - length str) ' '
 
+-- given a table, return a list of the maximum widths of each column
 columnWidths :: Table -> [Integer]
 columnWidths table = map (maximum . map length) $ transpose table
 
