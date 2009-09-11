@@ -12,7 +12,7 @@ import FixedWidth
 -- we take the first row to be the header. empty cells are permitted.
 
 asciify :: Table -> String
-asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") "-" "|"
+asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") '-' '|'
 
 converter = Converter
 	{ cName        = "ASCII"

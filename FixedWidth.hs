@@ -1,26 +1,30 @@
 module FixedWidth
     (Joints, fixedWidthTable) where
-import Prelude hiding (length)
-import Control.Monad
+
+import Prelude hiding (length, replicate)
+import Data.List hiding (length, replicate)
 
 import Utilities
 
 pad :: Integer -> String -> String
-pad n str = str ++ repeats " " (n - length str)
+pad n str = str ++ replicate (n - length str) ' '
 
 columnWidths :: Table -> [Integer]
 columnWidths table = map (maximum . map length) $ transpose table
 
-boxRow :: [Integer] -> String -> String -> String -> String -> String
+boxRow :: [Integer] -> Char -> String -> String -> String -> String
 boxRow widths sp left mid right = 
 	   left 
-	++ (intercalate mid $ map (\x -> repeats sp (x+2)) widths) 
+	++ (intercalate mid $ map (\x -> replicate (x+2) sp) widths) 
 	++ right
 
 type Joints = (String,String,String)
 
+surround :: Char -> String -> String
+surround c s = [c] ++ s ++ [c]
+
 -- We used to call this ASCII art, but these days it's Unicode.
-fixedWidthTable :: Joints -> Joints -> Joints -> String -> String -> Table -> String
+fixedWidthTable :: Joints -> Joints -> Joints -> Char -> Char -> Table -> String
 fixedWidthTable (tl,tm,tr) (ml, mm, mr) (bl, bm, br) h v table = 
 		concat $ intersperse "\n" [btop, bhead, bmid, body, bbot]
 	where
@@ -36,6 +40,7 @@ fixedWidthTable (tl,tm,tr) (ml, mm, mr) (bl, bm, br) h v table =
 		bhead = formatRow (head table)
 		body  = intercalate "\n" $ map formatRow (tail table)
 
-		formatRow row = v ++ (intercalate v $ 
-						zipWith formatCell row widths) ++ v
-		formatCell v width = " " ++ v ++ repeats " " (width - length v + 1)
+		formatRow row = surround v $ intercalate [v] $ 
+						zipWith formatCell row widths
+		formatCell :: String -> Integer -> String
+		formatCell val width = surround ' ' $ pad width val

@@ -11,6 +11,6 @@ import FixedWidth
 -- we take the first row to be the header. empty cells are permitted.
 
 unicate :: Table -> String
-unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") "─" "│"
+unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") '─' '│'
 
 converter = Converter "Unicode" unicate "U" "unicode"

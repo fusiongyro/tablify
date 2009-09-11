@@ -6,7 +6,7 @@ import Converter
 
 -- TBL... yeah...
 tblify :: Table -> String
-tblify table = tblstart ++ "\n" ++ header ++ "\n" ++ body ++ "\n" ++ tblend
+tblify table = intercalate "\n" [tblstart, header, body, tblend]
 	where
 		columns = length $ head table
 		tblstart = ".TS"
