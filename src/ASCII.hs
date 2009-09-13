@@ -15,8 +15,8 @@ asciify :: Table -> String
 asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") '-' '|'
 
 converter = Converter
-	{ cName        = "ASCII"
-	, cConvert     = asciify
-	, cShortOpt    = "A"
-	, cLongOpt     = "ascii"
-	}
+    { cName        = "ASCII"
+    , cConvert     = asciify
+    , cShortOpt    = "A"
+    , cLongOpt     = "ascii"
+    }

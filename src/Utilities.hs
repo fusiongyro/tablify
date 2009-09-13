@@ -1,10 +1,10 @@
 module Utilities
- 	(Table,
-	 module Data.List,
-	 repeats,
-	 length,
-	 replicate
-	) where
+     (Table,
+     module Data.List,
+     repeats,
+     length,
+     replicate
+    ) where
 
 import Data.List hiding (length, replicate)
 import Prelude hiding (length, replicate)

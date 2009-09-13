@@ -31,69 +31,69 @@ import CSV
 version = 0.7
 
 data Options = Options 
-	{ optHelp        :: Bool
-	, optVersion     :: Bool
-	, optConverter   :: Converter
-	}
+    { optHelp        :: Bool
+    , optVersion     :: Bool
+    , optConverter   :: Converter
+    }
 
 defaultOptions = Options
-	{ optHelp      = False
-	, optVersion   = False
-	, optConverter = HTML.converter
-	}
+    { optHelp      = False
+    , optVersion   = False
+    , optConverter = HTML.converter
+    }
 
 converters = 
-	[ ASCII.converter
-	, HTML.converter
-	, TBL.converter
-	, Unicode.converter]
+    [ ASCII.converter
+    , HTML.converter
+    , TBL.converter
+    , Unicode.converter]
 
 usage :: String
 usage = "Usage: tablify [OPTION...] file"
 
 options :: [OptDescr (Options -> Options)]
 options = 
-	[ Option ['v']  ["version"] 
-		(NoArg (\o -> o { optVersion = True }))
-		"show version"
-	, Option ['h']  ["help"] 
-		(NoArg (\o -> o { optHelp = True }))
-		"show this help" ] ++ moreOptions
-	where
-		moreOptions = map converterToOption converters
-		converterToOption c@(Converter name conv short long) = 
-			Option short [long] 
-				(NoArg (\o -> o {optConverter = c}))
-				("output " ++ name ++ " table")
+    [ Option ['v']  ["version"] 
+        (NoArg (\o -> o { optVersion = True }))
+        "show version"
+    , Option ['h']  ["help"] 
+        (NoArg (\o -> o { optHelp = True }))
+        "show this help" ] ++ moreOptions
+    where
+        moreOptions = map converterToOption converters
+        converterToOption c@(Converter name conv short long) = 
+            Option short [long] 
+                (NoArg (\o -> o {optConverter = c}))
+                ("output " ++ name ++ " table")
 
 getOptions :: [String] -> IO (Options, [String])
 getOptions argv =
-	case getOpt Permute options argv of
-		(o, n, []) -> return (foldl (flip id) defaultOptions o, n)
-		(_, _, errors) -> ioError (userError 
-							(concat errors ++ usageInfo usage options))
+    case getOpt Permute options argv of
+        (o, n, []) -> return (foldl (flip id) defaultOptions o, n)
+        (_, _, errors) -> ioError (userError 
+                            (concat errors ++ usageInfo usage options))
 
 processOpts :: Table -> Options -> String
 processOpts table (Options _ _ (Converter { cConvert = f })) = f table
-		
+        
 parseData :: String -> IO Table
 parseData dat = case parseCSV dat of 
-	Left _ -> ioError $ userError "unable to parse file"
-	Right result -> return result
+    Left _ -> ioError $ userError "unable to parse file"
+    Right result -> return result
 
 processFile :: Options -> String -> IO ()
 processFile opts file = do
-	fileData <- if file == "-" then getContents	else readFile file
-	table <- parseData fileData
-	putStrLn $ processOpts table opts
+    fileData <- if file == "-" then getContents    else readFile file
+    table <- parseData fileData
+    putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
 showInfo Options { optVersion = True } = putStrLn $ "tablify version " ++ show version
 showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 
 main = do
-	args <- getArgs
-	(opts, arguments) <- getOptions args
-	if optHelp opts || optVersion opts 
-		then showInfo opts
-		else mapM_ (processFile opts) arguments
+    args <- getArgs
+    (opts, arguments) <- getOptions args
+    if optHelp opts || optVersion opts 
+        then showInfo opts
+        else mapM_ (processFile opts) arguments
