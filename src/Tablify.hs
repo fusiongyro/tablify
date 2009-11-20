@@ -27,6 +27,7 @@ import HTML
 import TBL
 import ASCII
 import CSV
+import LaTeX
 
 version = 0.7
 
@@ -46,7 +47,8 @@ converters =
     [ ASCII.converter
     , HTML.converter
     , TBL.converter
-    , Unicode.converter]
+    , Unicode.converter
+    , LaTeX.converter]
 
 usage :: String
 usage = "Usage: tablify [OPTION...] file"
