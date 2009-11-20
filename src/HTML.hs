@@ -22,7 +22,7 @@ end s = "</" ++ s ++ ">"
 htmlEscape :: String -> String
 htmlEscape html = foldl' process html mappings
     where
-        mappings = [("&", "&amp;"), ("<", "&lt;"), (">", "&gt;")]
+        mappings = [("&", "&amp;"), ("<", "&lt;"), (">", "&gt;"), ("\n", "<br />")]
         process text (find, replace) = subRegex (mkRegex find) text replace
 
 renderTag :: Integer -> Tag -> String
