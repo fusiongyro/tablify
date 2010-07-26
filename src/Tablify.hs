@@ -14,10 +14,12 @@
 module Main where
 
 -- this declaration lets me forget all about qualifying the UTF8 version of IO
-import Prelude hiding (putStr, putStrLn, readFile, getContents) 
+--import Prelude hiding (putStr, putStrLn, getContents) 
 
 import System
-import System.IO.UTF8
+import System.IO
+--import System.IO.SaferFileHandles
+--import System.IO.UTF8
 import System.Console.GetOpt
 
 import Converter
@@ -96,6 +98,7 @@ showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
 main = do
     args <- getArgs
     (opts, arguments) <- getOptions args
+    hSetEncoding stdout utf8
     if optHelp opts || optVersion opts 
         then showInfo opts
         else mapM_ (processFile opts) arguments
