@@ -15,4 +15,5 @@ tblify table = intercalate "\n" [tblstart, header, body, tblend]
         heading c = intersperse ' ' $ replicate (columns+1) c
         body = intercalate "\n" $ map (intercalate "\t") table
 
+converter :: Converter
 converter = Converter "TBL" tblify "T" "tbl"

@@ -31,7 +31,8 @@ import ASCII
 import CSV
 import LaTeX
 
-version = 0.7
+version :: Double
+version = 0.8
 
 data Options = Options 
     { optHelp        :: Bool
@@ -39,12 +40,14 @@ data Options = Options
     , optConverter   :: Converter
     }
 
+defaultOptions :: Options
 defaultOptions = Options
     { optHelp      = False
     , optVersion   = False
     , optConverter = HTML.converter
     }
 
+converters :: [Converter]
 converters = 
     [ ASCII.converter
     , HTML.converter
@@ -57,15 +60,15 @@ usage = "Usage: tablify [OPTION...] file"
 
 options :: [OptDescr (Options -> Options)]
 options = 
-    [ Option ['v']  ["version"] 
+    [ Option "v"  ["version"] 
         (NoArg (\o -> o { optVersion = True }))
         "show version"
-    , Option ['h']  ["help"] 
+    , Option "h"  ["help"] 
         (NoArg (\o -> o { optHelp = True }))
         "show this help" ] ++ moreOptions
     where
         moreOptions = map converterToOption converters
-        converterToOption c@(Converter name conv short long) = 
+        converterToOption c@(Converter name _ short long) = 
             Option short [long] 
                 (NoArg (\o -> o {optConverter = c}))
                 ("output " ++ name ++ " table")
@@ -94,7 +97,9 @@ processFile opts file = do
 showInfo :: Options -> IO ()
 showInfo Options { optVersion = True } = putStrLn $ "tablify version " ++ show version
 showInfo Options { optHelp = True }    = putStr $ usageInfo usage options
+showInfo _                             = fail "unable to show info for weird options"
 
+main :: IO ()
 main = do
     args <- getArgs
     (opts, arguments) <- getOptions args

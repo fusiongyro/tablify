@@ -16,7 +16,7 @@ columnWidths table = map (maximum . map length) $ transpose table
 boxRow :: [Integer] -> Char -> String -> String -> String -> String
 boxRow widths sp left mid right = 
        left 
-    ++ (intercalate mid $ map (\x -> replicate (x+2) sp) widths) 
+    ++ intercalate mid (map (\x -> replicate (x+2) sp) widths)
     ++ right
 
 type Joints = (String,String,String)
@@ -27,7 +27,7 @@ surround c s = [c] ++ s ++ [c]
 -- We used to call this ASCII art, but these days it's Unicode.
 fixedWidthTable :: Joints -> Joints -> Joints -> Char -> Char -> Table -> String
 fixedWidthTable (tl,tm,tr) (ml, mm, mr) (bl, bm, br) h v table = 
-        concat $ intersperse "\n" [btop, bhead, bmid, body, bbot]
+        intercalate "\n" [btop, bhead, bmid, body, bbot]
     where
         -- I'm pattern matching the (0,0) as a way of 
         -- checking that the table is valid

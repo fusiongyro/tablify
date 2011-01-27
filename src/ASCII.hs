@@ -14,6 +14,7 @@ import FixedWidth
 asciify :: Table -> String
 asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") '-' '|'
 
+converter :: Converter
 converter = Converter
     { cName        = "ASCII"
     , cConvert     = asciify

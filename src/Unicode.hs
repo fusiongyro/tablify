@@ -13,4 +13,5 @@ import FixedWidth
 unicate :: Table -> String
 unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") '─' '│'
 
+converter :: Converter
 converter = Converter "Unicode" unicate "U" "unicode"

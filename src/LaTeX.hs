@@ -14,4 +14,5 @@ texify table = intercalate "\n" [tblstart, body, tblend]
 		heading c = intersperse ' ' $ replicate columns c
 		body = intercalate "\\\\\n" $ map (intercalate " & ") table
 
+converter :: Converter
 converter = Converter "LaTeX" texify "L" "latex"
