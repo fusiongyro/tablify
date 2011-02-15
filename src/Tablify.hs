@@ -30,6 +30,7 @@ import TBL
 import ASCII
 import CSV
 import LaTeX
+import ConTeXt
 
 version :: Double
 version = 0.8
@@ -53,7 +54,8 @@ converters =
     , HTML.converter
     , TBL.converter
     , Unicode.converter
-    , LaTeX.converter]
+    , LaTeX.converter
+    , ConTeXt.converter]
 
 usage :: String
 usage = "Usage: tablify [OPTION...] file"
