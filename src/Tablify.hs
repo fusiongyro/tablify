@@ -13,13 +13,8 @@
 
 module Main where
 
--- this declaration lets me forget all about qualifying the UTF8 version of IO
---import Prelude hiding (putStr, putStrLn, getContents) 
-
-import System
+import System.Environment
 import System.IO
---import System.IO.SaferFileHandles
---import System.IO.UTF8
 import System.Console.GetOpt
 
 import Converter
