@@ -13,7 +13,7 @@ import FixedWidth
 -- prefixing and suffixing padded strings in the tabular format.
 -- we take the first row to be the header. empty cells are permitted.
 
-asciify :: Table -> ByteString
+asciify :: Table -> Text
 asciify = fixedWidthTable ("+","+","+") ("+","+","+") ("+","+","+") '-' '|'
 
 converter :: Converter

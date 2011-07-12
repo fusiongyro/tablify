@@ -16,5 +16,5 @@ Extra-Source-Files:  README.txt
 Executable tablify   
   Main-Is:           Tablify.hs
   Other-Modules:     ASCII, CSV, Converter, ConTeXt, FixedWidth, LaTeX, HTML, TBL, Tablify, Unicode, Utilities
-  Build-Depends:     base < 5, parsec < 4, xhtml, bytestring < 1.0
+  Build-Depends:     base < 5, parsec < 4, xhtml, bytestring < 1.0, text < 0.12
   HS-Source-Dirs:    src
