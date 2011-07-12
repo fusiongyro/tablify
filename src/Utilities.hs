@@ -2,23 +2,14 @@
 
 module Utilities
      (Table,
-     module Data.List,
-     repeats,
-     length,
-     replicate
+     module B,
+     B.ByteString,
+     (++)
     ) where
 
-import Data.List hiding (length, replicate)
-import Prelude hiding (length, replicate)
+import Prelude hiding ((++))
+import qualified Data.ByteString.Char8 as B
 
-type Table = [[String]]
+type Table = [[B.ByteString]]
 
--- let's simplify the reading of the code
-length :: forall b. [b] -> Integer
-length = genericLength
-
-replicate :: forall a. Integer -> a -> [a]
-replicate = genericReplicate
-
-repeats :: [a] -> Integer -> [a]
-repeats s c = concat $ genericTake c $ repeat s
+(++) = B.append
