@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Unicode (converter) where
 
 import Utilities
@@ -10,7 +12,7 @@ import FixedWidth
 -- prefixing and suffixing padded strings in the tabular format.
 -- we take the first row to be the header. empty cells are permitted.
 
-unicate :: Table -> String
+unicate :: Table -> ByteString
 unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") '─' '│'
 
 converter :: Converter
