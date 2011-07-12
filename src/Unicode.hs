@@ -12,7 +12,7 @@ import FixedWidth
 -- prefixing and suffixing padded strings in the tabular format.
 -- we take the first row to be the header. empty cells are permitted.
 
-unicate :: Table -> ByteString
+unicate :: Table -> Text
 unicate = fixedWidthTable ("┌","┬","┐") ("├","┼","┤") ("└","┴","┘") '─' '│'
 
 converter :: Converter

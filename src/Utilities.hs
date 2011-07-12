@@ -1,17 +1,17 @@
 {-# LANGUAGE RankNTypes #-}
 
 module Utilities ( Table
-                 , module B
-                 , B.ByteString
+                 , module T
+                 , T.Text
                  , (++)
-                 , B.intercalate
-                 , B.intersperse
-                 , B.replicate
+                 , T.intercalate
+                 , T.intersperse
+                 , T.replicate
                  ) where
 
 import Prelude hiding ((++))
-import qualified Data.ByteString.Char8 as B
+import qualified Data.Text as T
 
-type Table = [[B.ByteString]]
+type Table = [[T.Text]]
 
-(++) = B.append
+(++) = T.append

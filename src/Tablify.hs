@@ -14,7 +14,8 @@
 module Main where
 
 import Prelude
-import qualified Data.ByteString as B
+import qualified Data.Text as T
+import qualified Data.Text.IO as TIO
 import System.Environment
 import System.IO
 import System.Console.GetOpt
@@ -79,19 +80,19 @@ getOptions argv =
         (_, _, errors) -> ioError (userError 
                             (concat errors ++ usageInfo usage options))
 
-processOpts :: Table -> Options -> ByteString
+processOpts :: Table -> Options -> Text
 processOpts table (Options _ _ (Converter { cConvert = f })) = f table
         
-parseData :: ByteString -> IO Table
+parseData :: Text -> IO Table
 parseData dat = case parseCSV dat of 
     Left _ -> ioError $ userError "unable to parse file"
     Right result -> return result
 
 processFile :: Options -> String -> IO ()
 processFile opts file = do
-    fileData <- if file == "-" then B.getContents else B.readFile file
+    fileData <- if file == "-" then TIO.getContents else TIO.readFile file
     table <- parseData fileData
-    B.putStrLn $ processOpts table opts
+    TIO.putStrLn $ processOpts table opts
 
 showInfo :: Options -> IO ()
 showInfo Options { optVersion = True } = putStrLn $ "tablify version " ++ show version

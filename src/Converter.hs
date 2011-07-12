@@ -6,7 +6,7 @@ import Utilities
 
 data Converter = Converter
     { cName         :: String
-    , cConvert      :: Table -> ByteString
+    , cConvert      :: Table -> Text
     , cShortOpt     :: String
     , cLongOpt      :: String
     }
