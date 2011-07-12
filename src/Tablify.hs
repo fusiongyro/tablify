@@ -30,7 +30,7 @@ import LaTeX
 import ConTeXt
 
 version :: Double
-version = 0.8
+version = 0.9
 
 data Options = Options 
     { optHelp        :: Bool

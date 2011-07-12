@@ -1,11 +1,13 @@
 {-# LANGUAGE RankNTypes #-}
 
-module Utilities
-     (Table,
-     module B,
-     B.ByteString,
-     (++)
-    ) where
+module Utilities ( Table
+                 , module B
+                 , B.ByteString
+                 , (++)
+                 , B.intercalate
+                 , B.intersperse
+                 , B.replicate
+                 ) where
 
 import Prelude hiding ((++))
 import qualified Data.ByteString.Char8 as B
