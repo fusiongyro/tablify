@@ -6,8 +6,8 @@ import Data.ByteString
 import Utilities
 
 data Converter = Converter
-    { cName         :: String
-    , cConvert      :: Table -> Text
-    , cShortOpt     :: String
-    , cLongOpt      :: String
+    { cName         ∷ String
+    , cConvert      ∷ Table → Text
+    , cShortOpt     ∷ String
+    , cLongOpt      ∷ String
     }
