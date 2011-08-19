@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE UnicodeSyntax, OverloadedStrings #-}
 
 module TBL (converter) where
 

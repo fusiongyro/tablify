@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE UnicodeSyntax, OverloadedStrings #-}
 
 module ASCII (converter) where
 import Prelude hiding (length)

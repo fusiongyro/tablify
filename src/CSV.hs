@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, RankNTypes #-}
+{-# LANGUAGE UnicodeSyntax, OverloadedStrings, RankNTypes #-}
 
 module CSV where
 

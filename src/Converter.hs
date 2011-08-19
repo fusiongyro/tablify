@@ -1,3 +1,4 @@
+{-# LANGUAGE UnicodeSyntax #-}
 module Converter where
 
 import Data.ByteString
