@@ -1,3 +1,4 @@
+{-# LANGUAGE UnicodeSyntax #-}
 -- Generates tables from CSV files.
 --
 -- I wrote it specifically to make pretty Unicode tables like this:

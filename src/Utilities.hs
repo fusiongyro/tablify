@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE UnicodeSyntax, RankNTypes #-}
 
 module Utilities ( Table
                  , module T
